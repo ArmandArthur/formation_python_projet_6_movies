@@ -19,7 +19,7 @@ db.sqlite3
 
 movies/
 .vscode
-api
-config
-data
-docs
+api/
+config/
+data/
+docs/
