@@ -23,3 +23,11 @@ api/
 config/
 data/
 docs/
+
+Pipfile
+Pipfile.lock
+manage.py
+requirements-dev.txt
+requirements.txt
+setup.cfg
+tests/
