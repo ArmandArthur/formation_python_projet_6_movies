@@ -1,10 +1,6 @@
-// let urls = [
-//     'http://127.0.0.1:8000/api/v1/titles/?&sort_by=-imdb_score&page_size=7',
-//     'http://127.0.0.1:8000/api/v1/titles/?genre_contains=Family&page_size=7&sort_by=-imdb_score',
-//     'http://127.0.0.1:8000/api/v1/titles/?genre_contains=Crime&page_size=7&sort_by=-imdb_score',
-//     'http://127.0.0.1:8000/api/v1/titles/?genre_contains=Adventure&page_size=7&sort_by=-imdb_score'
-// ]
-
+window.addEventListener("DOMContentLoaded", (event) => {
+    main()
+});
 
 const create_img = function(url, id) {
     return `<img src="${url}" alt="" onclick="show_movie_info(${id})">`
@@ -17,9 +13,6 @@ let load_category = async function(cat_name = '') {
     let movies = json_resp.results
     return movies
 }
-window.addEventListener("DOMContentLoaded", (event) => {
-    main()
-});
 
 let main = async function() {
 
