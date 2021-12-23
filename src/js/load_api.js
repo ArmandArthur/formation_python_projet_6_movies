@@ -52,14 +52,20 @@ let create_carousel = async function(cat_name) {
     for (let index = 0; index < 7; index++) {
         imgs += create_img(movies[index].image_url, movies[index].id)
     }
-    return `<div class="carousel-container">
-        <div class="arrow-wrapper">
-            <div class="arrow-left prev hide"></div>
-            <div class="arrow-right next"></div>
-        </div>
-        <div class="carousel-list">${imgs}
-        </div>
-    </div>`
+    // Create span tmp
+    var el = document.createElement('span');
+
+    // Get content of template
+    var template = document.getElementById("carousel-template").innerHTML
+
+    // Set content of span tmp
+    el.innerHTML = template
+
+    // Remplace variables
+    el.getElementsByClassName('carousel-list')[0].innerHTML = imgs
+
+    // Return content of span tmp
+    return el.innerHTML
 }
 
 
