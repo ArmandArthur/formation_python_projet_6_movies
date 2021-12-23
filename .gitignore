@@ -16,3 +16,10 @@ db.sqlite3
 
 .coverage
 .pytest*
+
+movies
+.vscode
+api
+config
+data
+docs
