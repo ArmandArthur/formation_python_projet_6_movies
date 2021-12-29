@@ -68,6 +68,28 @@ body {
             top: 10px;
             cursor: pointer;
         }
+        .next_modal {
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 16px solid red;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            cursor: pointer;
+        }
+        .prev_modal {
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 16px solid red;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            cursor: pointer;
+        }
     }
     .carousel-container {
         padding: 0px;

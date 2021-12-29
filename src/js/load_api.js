@@ -13,7 +13,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     })
 });
 
-let show_movie_info = async function(id) {
+let show_movie_info = async function(id, is_main_picture) {
+
     let modal = document.querySelector('#modal')
     let background = document.querySelector('#background')
     modal.classList.remove('hide')
@@ -44,10 +45,49 @@ let show_movie_info = async function(id) {
         background.classList.add('hide')
     })
 
+    if (is_main_picture == true) {
+        let next_modal = document.querySelector('.next_modal')
+        let prev_modal = document.querySelector('.prev_modal')
+        next_modal.classList.add('hide')
+        prev_modal.classList.add('hide')
+
+    } else {
+        modal.querySelector(".next_modal").addEventListener("click", function() {
+            var img = document.querySelector('img[id="image_' + id + '"]')
+            var next = img.nextSibling
+            modal.classList.add('hide')
+            background.classList.add('hide')
+            modal.innerHTML = ''
+            if (next != null) {
+                document.querySelector('#' + next.id).click()
+            } else {
+                img.closest('.carousel-list').firstChild.click()
+            }
+        })
+        modal.querySelector(".prev_modal").addEventListener("click", function() {
+            var img = document.querySelector('img[id="image_' + id + '"]')
+            var prev = img.previousSibling
+            modal.classList.add('hide')
+            background.classList.add('hide')
+            modal.innerHTML = ''
+            if (prev != null) {
+                document.querySelector('#' + prev.id).click()
+            } else {
+                img.closest('.carousel-list').lastChild.click()
+            }
+        })
+    }
+
+
 }
 
-const create_img = function(url, id) {
-    return `<img src="${url}" alt="" onclick="show_movie_info(${id})">`
+const create_img = function(url, id, is_main_picture) {
+    let id_img = ''
+    if (is_main_picture == false)
+        id_img = `id="image_${id}"`
+    else
+        id_img = `id="image_main"`
+    return `<img ${id_img} src="${url}" onclick="show_movie_info(${id},${is_main_picture} )"/>`
 }
 
 let load_category = async function(cat_name = '') {
@@ -66,7 +106,7 @@ let load_modal = async function(id) {
 }
 let load_simple = async function() {
 
-    let url = `http://127.0.0.1:8000/api/v1/titles/?sort_by=-avg_vote&page_size=1`
+    let url = `http://127.0.0.1:8000/api/v1/titles/?sort_by=-imdb_score&page_size=1`
     let response = await fetch(url)
     let json_resp = await response.json()
     let movies = json_resp.results
@@ -77,7 +117,7 @@ let main = async function() {
 
     let simple = await create_simple()
     let first_container = document.querySelector('.first')
-    first_container.innerHTML = create_img(simple.image_url, simple.id)
+    first_container.innerHTML = create_img(simple.image_url, simple.id, true)
 
 
     let carousel_best = await create_carousel()
@@ -112,7 +152,7 @@ let create_carousel = async function(cat_name) {
     const movies = await load_category(cat_name)
     let imgs = ''
     for (let index = 0; index < 7; index++) {
-        imgs += create_img(movies[index].image_url, movies[index].id)
+        imgs += create_img(movies[index].image_url, movies[index].id, false)
     }
 
     // Objet de variables
