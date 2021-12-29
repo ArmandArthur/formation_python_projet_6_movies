@@ -1,6 +1,50 @@
 window.addEventListener("DOMContentLoaded", (event) => {
     main()
+    let modal = document.querySelector('#modal')
+    let background = document.querySelector('#background')
+
+    document.addEventListener("keydown", function(e) {
+        if (e.keyCode == 27) {
+            modal.classList.add('hide')
+            background.classList.add('hide')
+            modal.innerHTML = ''
+        }
+
+    })
 });
+
+let show_movie_info = async function(id) {
+    let modal = document.querySelector('#modal')
+    let background = document.querySelector('#background')
+    modal.classList.remove('hide')
+    background.classList.remove('hide')
+    let modal_data = await load_modal(id)
+        // Objet de variables
+    const variables = {
+        'movie-title': modal_data.title,
+        'movie-img': '<img src="' + modal_data.image_url + '" alt="' + modal_data.image_url + '"/>',
+        'movie-genres': modal_data.genres.map(el => { return el }),
+        'movie-date': modal_data.date_published,
+        'movie-rated': modal_data.rated,
+        'movie-imdb_score': modal_data.imdb_score,
+        'movie-directors': modal_data.directors.map(el => { return el }),
+        'movie-actors': modal_data.actors.map(el => { return el }),
+        'movie-duration': modal_data.duration,
+        'movie-countries': modal_data.countries.map(el => { return el }),
+        'movie-boxoffice-usa': modal_data.usa_gross_income,
+        'movie-boxoffice-worldwide': modal_data.worldwide_gross_income,
+        'movie-description': modal_data.description
+    }
+
+    let template = load_template('modal-template', variables)
+    modal.innerHTML = modal.innerHTML + template
+    modal.querySelector(".close").addEventListener("click", function() {
+        modal.classList.add('hide')
+        modal.innerHTML = ''
+        background.classList.add('hide')
+    })
+
+}
 
 const create_img = function(url, id) {
     return `<img src="${url}" alt="" onclick="show_movie_info(${id})">`
@@ -13,30 +57,55 @@ let load_category = async function(cat_name = '') {
     let movies = json_resp.results
     return movies
 }
+let load_modal = async function(id) {
+    let url = `http://127.0.0.1:8000/api/v1/titles/${id}`
+    let response = await fetch(url)
+    let json_resp = await response.json()
+        //let movies = json_resp.results
+    return json_resp
+}
+let load_simple = async function() {
+
+    let url = `http://127.0.0.1:8000/api/v1/titles/?sort_by=-avg_vote&page_size=1`
+    let response = await fetch(url)
+    let json_resp = await response.json()
+    let movies = json_resp.results
+    return movies[0]
+}
 
 let main = async function() {
+
+    let simple = await create_simple()
+    let first_container = document.querySelector('.first')
+    first_container.innerHTML = create_img(simple.image_url, simple.id)
+
 
     let carousel_best = await create_carousel()
     let best_container = document.querySelector('.best')
     best_container.innerHTML = carousel_best
-    await carousel_nav('.best')
+    await carousel_arrow('.best')
 
     let carousel_family = await create_carousel('family')
     let family_container = document.querySelector('.family')
     family_container.innerHTML = carousel_family
-    await carousel_nav('.family')
+    await carousel_arrow('.family')
 
     let carousel_crime = await create_carousel('crime')
     let crime_container = document.querySelector('.crime')
     crime_container.innerHTML = carousel_crime
-    await carousel_nav('.crime')
+    await carousel_arrow('.crime')
 
     let carousel_adventure = await create_carousel('adventure')
     let adventure_container = document.querySelector('.adventure')
     adventure_container.innerHTML = carousel_adventure
-    await carousel_nav('.adventure')
+    await carousel_arrow('.adventure')
 
 
+}
+
+let create_simple = async function() {
+    const movie_first = await load_simple()
+    return movie_first
 }
 
 let create_carousel = async function(cat_name) {
@@ -45,24 +114,35 @@ let create_carousel = async function(cat_name) {
     for (let index = 0; index < 7; index++) {
         imgs += create_img(movies[index].image_url, movies[index].id)
     }
+
+    // Objet de variables
+    const variables = {
+        'carousel-list': imgs
+    };
+
+    return load_template('carousel-template', variables)
+}
+
+let load_template = function(id, variables) {
     // Create span tmp
     var el = document.createElement('span');
 
     // Get content of template
-    var template = document.getElementById("carousel-template").innerHTML
+    var template = document.getElementById(id).innerHTML
 
     // Set content of span tmp
     el.innerHTML = template
 
     // Remplace variables
-    el.getElementsByClassName('carousel-list')[0].innerHTML = imgs
+    for (const [key, value] of Object.entries(variables)) {
+        el.getElementsByClassName(key)[0].innerHTML = value
+
+    }
 
     // Return content of span tmp
     return el.innerHTML
 }
-
-
-let carousel_nav = async function(selector) {
+let carousel_arrow = async function(selector) {
     let iteration = 0
     let longeur_carousel = 4
     let container = document.querySelector(selector)

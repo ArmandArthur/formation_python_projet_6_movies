@@ -8,7 +8,16 @@
 </head>
 
 <body>
+    <header>
+        <span>  Accueil </span>
+        <span class="juststreamit">
+            <img src="juststreamit.png" alt="Logo">
+        </span>
+    </header>
     <main>
+        <h1>Meilleur film</h1>
+        <div class="first">
+        </div>
         <h1>Les films les mieux notés</h1>
         <div class="best">
         </div>
@@ -22,6 +31,10 @@
         <div class="adventure">
         </div>
     </main>
+    <div id="background" class="hide">
+    </div>
+    <div id="modal" class="hide">
+    </div>
 </body>
 
 <script src="js/load_api.js"></script>
@@ -34,6 +47,48 @@
         </div>
         <div class="carousel-list">
         </div>
+    </div>
+</template>
+<template id="modal-template">
+    <span class="close"></span>
+    <div>
+        <span class="bold">Titre :</span> <span class="movie-title"></span>
+    </div>
+    <div>
+        <span class="movie-img"></span>
+    </div>
+    <div>
+        <span class="bold">Genre(s) :</span> <span class="movie-genres"></span>
+    </div>
+    <div>
+        <span class="bold">Date de sortie :</span> <span class="movie-date"></span>
+    </div>
+    <div>
+        <span class="bold">Rating :</span> <span class="movie-rated"></span>
+    </div>
+    <div>
+        <span class="bold">Score IMDB :</span> <span class="movie-imdb_score"></span>
+    </div>
+    <div>
+        <span class="bold">Réalisateur(s) :</span> <span class="movie-directors"></span>
+    </div>
+    <div>
+        <span class="bold">Acteur(s) :</span> <span class="movie-actors"></span>
+    </div>
+    <div>
+        <span class="bold">Durée :</span> <span class="movie-duration"></span>
+    </div>
+    <div>
+        <span class="bold">Pays d'origine :</span> <span class="movie-countries"></span>
+    </div>
+    <div>
+        <span class="bold">Box Office USA :</span> <span class="movie-boxoffice-usa"></span>
+    </div>
+    <div>
+        <span class="bold">Box Office Wordwide :</span> <span class="movie-boxoffice-worldwide"></span>
+    </div>
+    <div>
+        <span class="bold">Description :</span> <span class="movie-description"></span>
     </div>
 </template>
 
