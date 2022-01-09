@@ -1,8 +1,11 @@
+let base = 'http://127.0.0.1:8000/api/v1/titles/'
+
 window.addEventListener("DOMContentLoaded", (event) => {
     main()
     let modal = document.querySelector('#modal')
     let background = document.querySelector('#background')
 
+    // ECHAP
     document.addEventListener("keydown", function(e) {
         if (e.keyCode == 27) {
             modal.classList.add('hide')
@@ -91,14 +94,14 @@ const create_img = function(url, id, is_main_picture) {
 }
 
 let load_category = async function(cat_name = '') {
-    const url = `http://127.0.0.1:8000/api/v1/titles/?genre_contains=${cat_name}&page_size=7&sort_by=-imdb_score`
+    const url = `${base}?genre_contains=${cat_name}&page_size=7&sort_by=-imdb_score`
     let response = await fetch(url)
     let json_resp = await response.json()
     let movies = json_resp.results
     return movies
 }
 let load_modal = async function(id) {
-    let url = `http://127.0.0.1:8000/api/v1/titles/${id}`
+    let url = `${base}${id}`
     let response = await fetch(url)
     let json_resp = await response.json()
         //let movies = json_resp.results
@@ -106,7 +109,7 @@ let load_modal = async function(id) {
 }
 let load_simple = async function() {
 
-    let url = `http://127.0.0.1:8000/api/v1/titles/?sort_by=-imdb_score&page_size=1`
+    let url = `${base}?sort_by=-imdb_score&page_size=1`
     let response = await fetch(url)
     let json_resp = await response.json()
     let movies = json_resp.results

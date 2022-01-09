@@ -8,12 +8,34 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode";
 }
 body header {
   width: 812px;
-  height: 235px;
+  height: 295px;
   background-color: #FFFFFF;
   padding: 10px 0;
+}
+body header .container {
+  padding: 10px 20px;
+  display: flex;
+  font-size: 30px;
+}
+body header .container ul {
+  margin: 0px;
+  padding: 0 0 0 15px;
+  list-style-type: none;
+  display: flex;
+}
+body header .container ul li {
+  padding: 0px 20px;
+}
+body header .container ul li a {
+  color: black;
+  text-decoration: none;
+}
+body header .container ul li a:hover {
+  text-decoration: underline;
 }
 body main {
   padding: 20px 40px;
@@ -23,7 +45,6 @@ body main {
 }
 body h1 {
   color: #FFFFFF;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode";
 }
 body #background {
   background-color: #FFFFFF;
